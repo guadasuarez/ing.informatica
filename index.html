@@ -123,11 +123,195 @@
 </style>
 </head>
 <body>
-
-<h2>Ingeniería en Informática UNSL - Plan nuevo</h2>
+<h2>Ingenieria en Informática UNSL - Plan nuevo</h2>
 
 <div class="malla" id="malla">
-  <!-- Acá van las secciones de materias (omitidas para simplificar, pero mantené todas las que ya tenés) -->
+
+  <!-- 1er Año -->
+  <section class="anio" data-anio="1">
+    <h3>1º Año</h3>
+    <div class="materia" data-id="intro-calc" data-correlativas="" data-tipo="1" tabindex="0">
+      Introducción al Cálculo
+      <div class="tipo-cuatrimestre">1º</div>
+    </div>
+    <div class="materia" data-id="algebra1" data-correlativas="" data-tipo="1" tabindex="0">
+      Álgebra I
+      <div class="tipo-cuatrimestre">1º</div>
+    </div>
+    <div class="materia" data-id="resolucion-problemas" data-correlativas="" data-tipo="1" tabindex="0">
+      Resolución de Problemas y Algoritmos
+      <div class="tipo-cuatrimestre">1º</div>
+    </div>
+    <div class="materia locked" data-id="programacion1" data-correlativas="resolucion-problemas" data-tipo="2" tabindex="0">
+      Programación I
+      <div class="tipo-cuatrimestre">2º</div>
+    </div>
+    <div class="materia locked" data-id="matematica-discreta" data-correlativas="algebra1" data-tipo="2" tabindex="0">
+      Matemática Discreta
+      <div class="tipo-cuatrimestre">2º</div>
+    </div>
+    <div class="materia locked" data-id="calculo1" data-correlativas="intro-calc" data-tipo="2" tabindex="0">
+      Cálculo I
+      <div class="tipo-cuatrimestre">2º</div>
+    </div>
+    <div class="materia locked" data-id="algebra2" data-correlativas="algebra1" data-tipo="2" tabindex="0">
+      Álgebra II
+      <div class="tipo-cuatrimestre">2º</div>
+    </div>
+  </section>
+
+  <!-- 2do Año -->
+  <section class="anio" data-anio="2">
+    <h3>2º Año</h3>
+    <div class="materia locked" data-id="probabilidad-estadistica" data-correlativas="matematica-discreta" data-tipo="1" tabindex="0">
+      Probabilidad y Estadística
+      <div class="tipo-cuatrimestre">1º</div>
+    </div>
+    <div class="materia locked" data-id="programacion2" data-correlativas="programacion1" data-tipo="1" tabindex="0">
+      Programación II
+      <div class="tipo-cuatrimestre">1º</div>
+    </div>
+    <div class="materia locked" data-id="org-arquitectura" data-correlativas="programacion1" data-tipo="1" tabindex="0">
+      Organización y Arquitectura de Computadoras
+      <div class="tipo-cuatrimestre">1º</div>
+    </div>
+    <div class="materia locked" data-id="programacion3" data-correlativas="programacion2" data-tipo="2" tabindex="0">
+      Programación III
+      <div class="tipo-cuatrimestre">2º</div>
+    </div>
+    <div class="materia locked" data-id="estructuras-datos" data-correlativas="programacion2,probabilidad-estadistica" data-tipo="2" tabindex="0">
+      Estructuras de Datos y Algoritmos
+      <div class="tipo-cuatrimestre">2º</div>
+    </div>
+    <div class="materia locked" data-id="fisica" data-correlativas="calculo1,algebra1" data-tipo="anual" tabindex="0">
+      Física
+      <div class="tipo-cuatrimestre">Anual</div>
+    </div>
+        <div class="materia" data-id="ingles" data-correlativas="resolucion-problemas" data-tipo="anual" tabindex="0">
+      Inglés
+      <div class="tipo-cuatrimestre">Anual</div>
+    </div> 
+  </section>
+
+  <!-- 3er Año -->
+  <section class="anio" data-anio="3">
+    <h3>3º Año</h3>
+    <div class="materia locked" data-id="ingenieria-software1" data-correlativas="programacion3" data-tipo="1" tabindex="0">
+      Ingeniería de Software I
+      <div class="tipo-cuatrimestre">1º</div>
+    </div>
+    <div class="materia locked" data-id="etica-legislacion" data-correlativas="" data-tipo="1" tabindex="0">
+      Ética y Legislación
+      <div class="tipo-cuatrimestre">1º</div>
+    </div>
+    <div class="materia locked" data-id="base-datos" data-correlativas="programacion3" data-tipo="1" tabindex="0">
+      Base de Datos
+      <div class="tipo-cuatrimestre">1º</div>
+    </div>
+    <div class="materia locked" data-id="modelos-simulacion" data-correlativas="" data-tipo="1" tabindex="0">
+      Modelos y Simulación
+      <div class="tipo-cuatrimestre">1º</div>
+    </div>
+    <div class="materia locked" data-id="fundamentos-computacion" data-correlativas="calculo1" data-tipo="1" tabindex="0">
+      Fundamentos de Computación
+      <div class="tipo-cuatrimestre">1º</div>
+    </div>
+    <div class="materia locked" data-id="ingenieria-software2" data-correlativas="ingenieria-software1" data-tipo="2" tabindex="0">
+      Ingeniería de Software II
+      <div class="tipo-cuatrimestre">2º</div>
+    </div>
+    <div class="materia locked" data-id="laboratorio-tecnologias" data-correlativas="ingenieria-software1" data-tipo="2" tabindex="0">
+      Laboratorio de Tecnologías
+      <div class="tipo-cuatrimestre">2º</div>
+    </div>
+    <div class="materia locked" data-id="redes-computadoras" data-correlativas="fundamentos-computacion" data-tipo="2" tabindex="0">
+      Redes de Computadoras
+      <div class="tipo-cuatrimestre">2º</div>
+    </div>
+    <div class="materia locked" data-id="sistemas-operativos" data-correlativas="fundamentos-computacion" data-tipo="2" tabindex="0">
+      Sistemas Operativos
+      <div class="tipo-cuatrimestre">2º</div>
+    </div>
+    <div class="materia locked" data-id="analisis-numerico" data-correlativas="calculo1" data-tipo="2" tabindex="0">
+      Análisis Numérico
+      <div class="tipo-cuatrimestre">2º</div>
+    </div>
+  </section>
+
+  <!-- 4to Año -->
+  <section class="anio" data-anio="4">
+    <h3>4º Año</h3>
+    <div class="materia locked" data-id="planeamiento-estrategico" data-correlativas="ingenieria-software2" data-tipo="1" tabindex="0">
+      Planeamiento Estratégico de Sistemas de Información
+      <div class="tipo-cuatrimestre">1º</div>
+    </div>
+    <div class="materia locked" data-id="sistemas-criticos" data-correlativas="ingenieria-software2" data-tipo="1" tabindex="0">
+      Sistemas Críticos
+      <div class="tipo-cuatrimestre">1º</div>
+    </div>
+    <div class="materia locked" data-id="ingenieria-web" data-correlativas="ingenieria-software2" data-tipo="1" tabindex="0">
+      Ingeniería Web
+      <div class="tipo-cuatrimestre">1º</div>
+    </div>
+    <div class="materia locked" data-id="teoria-informacion" data-correlativas="ingenieria-software2" data-tipo="1" tabindex="0">
+      Teoría de la Información y la Comunicación
+      <div class="tipo-cuatrimestre">1º</div>
+    </div>
+    <div class="materia locked" data-id="calidad-certificacion" data-correlativas="ingenieria-software2" data-tipo="2" tabindex="0">
+      Calidad y Certificación del Proceso y del Producto de Software
+      <div class="tipo-cuatrimestre">2º</div>
+    </div>
+    <div class="materia locked" data-id="auditoria-informatica" data-correlativas="ingenieria-software2" data-tipo="2" tabindex="0">
+      Auditoría Informática
+      <div class="tipo-cuatrimestre">2º</div>
+    </div>
+    <div class="materia locked" data-id="sistemas-inteligentes" data-correlativas="ingenieria-software2" data-tipo="2" tabindex="0">
+      Sistemas Inteligentes
+      <div class="tipo-cuatrimestre">2º</div>
+    </div>
+    <div class="materia locked" data-id="diseno-lenguajes" data-correlativas="ingenieria-software2" data-tipo="2" tabindex="0">
+      Diseño y Paradigmas de Lenguajes
+      <div class="tipo-cuatrimestre">2º</div>
+    </div>
+    <div class="materia locked" data-id="seguridad-sistemas" data-correlativas="ingenieria-software2" data-tipo="2" tabindex="0">
+      Seguridad de Sistemas Informáticos
+      <div class="tipo-cuatrimestre">2º</div>
+    </div>
+  </section>
+
+  <!-- 5to Año -->
+  <section class="anio" data-anio="5">
+    <h3>5º Año</h3>
+    <div class="materia locked" data-id="arquitectura-software" data-correlativas="diseno-lenguajes" data-tipo="1" tabindex="0">
+      Arquitectura de Software
+      <div class="tipo-cuatrimestre">1º</div>
+    </div>
+    <div class="materia locked" data-id="reingenieria-organizaciones" data-correlativas="diseno-lenguajes" data-tipo="1" tabindex="0">
+      Reingeniería de las Organizaciones y de los Sist. de Información
+      <div class="tipo-cuatrimestre">1º</div>
+    </div>
+    <div class="materia locked" data-id="administracion-evaluacion" data-correlativas="diseno-lenguajes" data-tipo="1" tabindex="0">
+      Administración y Evaluación Financiera de Proyectos Informáticos
+      <div class="tipo-cuatrimestre">1º</div>
+    </div>
+    <div class="materia" data-id="optativa1" data-correlativas="" data-tipo="1" tabindex="0">
+      Optativa (Mínimo 75 hs.)
+      <div class="tipo-cuatrimestre">1º</div>
+    </div>
+    <div class="materia" data-id="optativa2" data-correlativas="" data-tipo="2" tabindex="0">
+      Optativa (Mínimo 75 hs.)
+      <div class="tipo-cuatrimestre">2º</div>
+    </div>
+    <div class="materia" data-id="practica-profesional" data-correlativas="" data-tipo="2" tabindex="0">
+      Práctica Profesional Supervisada
+      <div class="tipo-cuatrimestre">2º</div>
+    </div>
+    <div class="materia" data-id="proyecto-integrador" data-correlativas="" data-tipo="2" tabindex="0">
+      Proyecto Integrador
+      <div class="tipo-cuatrimestre">2º</div>
+    </div>
+  </section>
+
 </div>
 
 <div class="firma">Hecho con 💻 por Guada Suarez</div>
@@ -206,6 +390,5 @@
     });
   });
 </script>
-
 </body>
 </html>
