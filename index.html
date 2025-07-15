@@ -1,157 +1,268 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Malla Interactiva - Ingeniería en Informática 💖</title>
-  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue&display=swap" rel="stylesheet">
-  <style>
-    body {
-      font-family: 'Comic Neue', cursive;
-      background: white;
-      margin: 20px;
-      color: #444;
-    }
-
-    h1 {
-      text-align: center;
-      color: #c71585;
-    }
-
-    select, option {
-      font-family: inherit;
-    }
-
-    .controls {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: 1rem;
-    }
-
-    .card {
-      background: #ffeef8;
-      padding: 15px;
-      border-radius: 15px;
-      border: 2px solid #f8c8dc;
-      box-shadow: 0 4px 10px rgba(255, 182, 193, 0.4);
-      position: relative;
-    }
-
-    .regularizada {
-      background-color: #fdd9ec;
-    }
-
-    .aprobada {
-      background-color: #f8a9c4;
-    }
-
-    .estado select:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
-
-    .locked-msg {
-      font-size: 0.8em;
-      color: #999;
-      margin-top: 5px;
-    }
-
-    select {
-      width: 100%;
-      padding: 5px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Malla Interactiva UNSL - Rosa Pastel</title>
+<!-- Fuente simpática desde Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet" />
+<style>
+  /* Reset y base */
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0; padding: 20px;
+    background: white;
+    font-family: 'Comic Neue', cursive, sans-serif;
+    color: #4a4a4a;
+  }
+  h2 {
+    text-align: center;
+    margin-bottom: 10px;
+    font-weight: 700;
+    color: #b35d82;
+  }
+  .malla {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+  }
+  .anio {
+    background: #ffe9f1;
+    border-radius: 10px;
+    padding: 15px;
+    width: 220px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    box-shadow: 0 2px 5px rgba(179, 93, 130, 0.3);
+  }
+  .anio h3 {
+    margin: 0 0 10px 0;
+    text-align: center;
+    color: #aa5072;
+    border-bottom: 2px solid #aa5072;
+    padding-bottom: 5px;
+  }
+  .cuatrimestre {
+    background: #fce9f2;
+    border-radius: 8px;
+    padding: 8px;
+  }
+  .cuatrimestre h4 {
+    margin: 5px 0 8px 0;
+    font-weight: 700;
+    color: #c16f91;
+    border-bottom: 1px solid #c16f91;
+  }
+  .materia {
+    background: #f8cee2;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    padding: 10px;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(193, 112, 143, 0.5);
+    transition: background-color 0.3s ease;
+    position: relative;
+    user-select: none;
+  }
+  .materia.locked {
+    background: #e4b8cc;
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+  .materia:hover:not(.locked) {
+    background-color: #f0a3c0;
+  }
+  .materia.aprobada {
+    background-color: #d6f0e7;
+    border: 2px solid #52a78e;
+    color: #31725f;
+  }
+  .materia.aprobada:hover {
+    background-color: #b8e6d5;
+  }
+  .nombre-materia {
+    font-weight: 600;
+  }
+  .toggle-correlativas {
+    margin-top: 8px;
+    font-size: 0.85rem;
+    color: #804060;
+  }
+  .correlativas {
+    background: #f9d7e1;
+    border-radius: 6px;
+    margin-top: 6px;
+    padding: 8px;
+    font-size: 0.9rem;
+    line-height: 1.3;
+    display: none;
+  }
+  .correlativas.visible {
+    display: block;
+  }
+  /* Checkbox para aprobar */
+  .checkbox-container {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+</style>
 </head>
 <body>
 
-  <h1>🌸 Malla Interactiva - Ingeniería en Informática 🌸</h1>
+<h2>Malla Interactiva UNSL - Estilo Rosa Pastel</h2>
 
-  <div class="controls">
-    <label for="filtro">Filtrar por año:</label>
-    <select id="filtro">
-      <option value="todos">Todos</option>
-      <option value="1">1° Año</option>
-      <option value="2">2° Año</option>
-      <option value="3">3° Año</option>
-      <option value="4">4° Año</option>
-      <option value="5">5° Año</option>
-    </select>
-  </div>
+<div class="malla" id="malla">
 
-  <div class="grid" id="malla"></div>
+  <!-- Año 1 -->
+  <section class="anio" data-anio="1">
+    <h3>1º Año</h3>
 
-  <script>
-    const materias = [
-      { id: 1, nombre: "Introducción al Cálculo", año: 1, cuatri: 1, correlativas: [] },
-      { id: 2, nombre: "Álgebra I", año: 1, cuatri: 1, correlativas: [] },
-      { id: 3, nombre: "Resolución de Problemas y Algoritmos", año: 1, cuatri: 1, correlativas: [] },
-      { id: 4, nombre: "Programación I", año: 1, cuatri: 2, correlativas: [3] },
-      { id: 5, nombre: "Matemática Discreta", año: 1, cuatri: 2, correlativas: [] },
-      { id: 6, nombre: "Cálculo I", año: 1, cuatri: 2, correlativas: [1] },
-      { id: 7, nombre: "Álgebra II", año: 1, cuatri: 2, correlativas: [2] },
-      { id: 10, nombre: "Programación II", año: 2, cuatri: 1, correlativas: [4] },
-      { id: 11, nombre: "Organización y Arquitectura de Computadoras", año: 2, cuatri: 1, correlativas: [] },
-    ];
+    <div class="cuatrimestre" data-cuatrimestre="1">
+      <h4>1º Cuatrimestre</h4>
+      <div class="materia" data-id="intro-calc" data-correlativas="[]" tabindex="0">
+        <span class="nombre-materia">Introducción al Cálculo</span>
+        <label class="checkbox-container">
+          <input type="checkbox" class="aprobar-checkbox" />
+        </label>
+        <div class="toggle-correlativas">Correlativas ▼</div>
+        <div class="correlativas">No tiene correlativas.</div>
+      </div>
+      <div class="materia locked" data-id="resolucion-problemas" data-correlativas="[]" tabindex="0">
+        <span class="nombre-materia">Resolución de Problemas</span>
+        <label class="checkbox-container">
+          <input type="checkbox" class="aprobar-checkbox" disabled />
+        </label>
+        <div class="toggle-correlativas">Correlativas ▼</div>
+        <div class="correlativas">No tiene correlativas.</div>
+      </div>
+    </div>
 
-    let estadosGuardados = JSON.parse(localStorage.getItem("estadosMaterias")) || {};
+    <div class="cuatrimestre" data-cuatrimestre="2">
+      <h4>2º Cuatrimestre</h4>
+      <div class="materia locked" data-id="calculo1" data-correlativas='["intro-calc"]' tabindex="0">
+        <span class="nombre-materia">Cálculo I</span>
+        <label class="checkbox-container">
+          <input type="checkbox" class="aprobar-checkbox" disabled />
+        </label>
+        <div class="toggle-correlativas">Correlativas ▼</div>
+        <div class="correlativas">Introducción al Cálculo</div>
+      </div>
+      <div class="materia locked" data-id="programacion1" data-correlativas='["resolucion-problemas"]' tabindex="0">
+        <span class="nombre-materia">Programación I</span>
+        <label class="checkbox-container">
+          <input type="checkbox" class="aprobar-checkbox" disabled />
+        </label>
+        <div class="toggle-correlativas">Correlativas ▼</div>
+        <div class="correlativas">Resolución de Problemas</div>
+      </div>
+    </div>
 
-    function correlativasAprobadas(correlativas) {
-      return correlativas.every(id => estadosGuardados[id] === "Aprobada");
+    <div class="cuatrimestre" data-cuatrimestre="anual">
+      <h4>Anuales</h4>
+      <!-- Agregar materias anuales aquí -->
+    </div>
+  </section>
+
+  <!-- Año 2 -->
+  <section class="anio" data-anio="2">
+    <h3>2º Año</h3>
+    <div class="cuatrimestre" data-cuatrimestre="1">
+      <h4>1º Cuatrimestre</h4>
+      <div class="materia locked" data-id="programacion2" data-correlativas='["programacion1"]' tabindex="0">
+        <span class="nombre-materia">Programación II</span>
+        <label class="checkbox-container">
+          <input type="checkbox" class="aprobar-checkbox" disabled />
+        </label>
+        <div class="toggle-correlativas">Correlativas ▼</div>
+        <div class="correlativas">Programación I</div>
+      </div>
+      <!-- Agregar más materias de 2º año 1º cuatrimestre -->
+    </div>
+    <div class="cuatrimestre" data-cuatrimestre="2">
+      <h4>2º Cuatrimestre</h4>
+      <!-- Agregar materias de 2º año 2º cuatrimestre -->
+    </div>
+    <div class="cuatrimestre" data-cuatrimestre="anual">
+      <h4>Anuales</h4>
+      <!-- Agregar materias anuales de 2º año -->
+    </div>
+  </section>
+
+  <!-- Agregar más años igual -->
+
+</div>
+
+<script>
+  // Función para mostrar u ocultar correlativas al hacer clic
+  document.querySelectorAll('.materia').forEach(materia => {
+    materia.querySelector('.toggle-correlativas').addEventListener('click', () => {
+      const corr = materia.querySelector('.correlativas');
+      corr.classList.toggle('visible');
+    });
+  });
+
+  // Control de aprobación y desbloqueo
+  const materias = {};
+
+  // Inicializar materias en objeto para control
+  document.querySelectorAll('.materia').forEach(materia => {
+    const id = materia.dataset.id;
+    const correlativas = JSON.parse(materia.dataset.correlativas);
+    materias[id] = {
+      element: materia,
+      correlativas,
+      aprobada: false
+    };
+  });
+
+  // Función que verifica si se pueden desbloquear materias
+  function actualizarDesbloqueo() {
+    for (const id in materias) {
+      const mat = materias[id];
+      // Si ya está aprobada, aseguramos que el checkbox esté activo y marcado
+      if (mat.aprobada) {
+        mat.element.classList.add('aprobada');
+        mat.element.classList.remove('locked');
+        mat.element.querySelector('input.aprobar-checkbox').checked = true;
+        mat.element.querySelector('input.aprobar-checkbox').disabled = false;
+      } else {
+        // Si no aprobada, verificamos correlativas aprobadas
+        const todasCorrelativasAprobadas = mat.correlativas.every(corrId => materias[corrId]?.aprobada);
+        if (todasCorrelativasAprobadas) {
+          mat.element.classList.remove('locked');
+          mat.element.querySelector('input.aprobar-checkbox').disabled = false;
+        } else {
+          mat.element.classList.add('locked');
+          mat.element.querySelector('input.aprobar-checkbox').disabled = true;
+          mat.element.querySelector('input.aprobar-checkbox').checked = false;
+        }
+        mat.element.classList.remove('aprobada');
+      }
     }
+  }
 
-    function renderMalla() {
-      const mallaDiv = document.getElementById("malla");
-      const filtro = document.getElementById("filtro")?.value || "todos";
-      mallaDiv.innerHTML = "";
+  actualizarDesbloqueo();
 
-      materias.forEach(mat => {
-        if (filtro !== "todos" && filtro !== String(mat.año)) return;
-
-        const estado = estadosGuardados[mat.id] || "";
-        const desbloqueada = correlativasAprobadas(mat.correlativas);
-
-        const card = document.createElement("div");
-        card.className = "card";
-        if (estado === "Regularizada") card.classList.add("regularizada");
-        if (estado === "Aprobada") card.classList.add("aprobada");
-
-        card.innerHTML = `
-          <strong>${mat.nombre}</strong><br>
-          <small>Año ${mat.año} - Cuat. ${mat.cuatri}</small>
-          <div class="estado">
-            <select data-id="${mat.id}" ${!desbloqueada && estado === "" ? "disabled" : ""}>
-              <option value="">Estado</option>
-              <option value="Regularizada" ${estado === "Regularizada" ? "selected" : ""}>Regularizada</option>
-              <option value="Aprobada" ${estado === "Aprobada" ? "selected" : ""}>Aprobada</option>
-            </select>
-            ${!desbloqueada && estado === "" ? `<div class="locked-msg">🔒 Requiere correlativas</div>` : ""}
-          </div>
-        `;
-
-        mallaDiv.appendChild(card);
-      });
-
-      document.querySelectorAll("select[data-id]").forEach(select => {
-        select.addEventListener("change", e => {
-          const id = e.target.getAttribute("data-id");
-          const value = e.target.value;
-          estadosGuardados[id] = value;
-          localStorage.setItem("estadosMaterias", JSON.stringify(estadosGuardados));
-          renderMalla();
-        });
-      });
-    }
-
-    document.getElementById("filtro").addEventListener("change", renderMalla);
-
-    renderMalla();
-  </script>
+  // Manejar click en checkbox para aprobar o desaprobar materia
+  document.querySelectorAll('input.aprobar-checkbox').forEach(checkbox => {
+    checkbox.addEventListener('change', e => {
+      const materiaDiv = e.target.closest('.materia');
+      const id = materiaDiv.dataset.id;
+      if (e.target.checked) {
+        materias[id].aprobada = true;
+      } else {
+        materias[id].aprobada = false;
+      }
+      actualizarDesbloqueo();
+    });
+  });
+</script>
 
 </body>
 </html>
