@@ -6,79 +6,136 @@
 <title>Malla Interactiva UNSL - Rosa Pastel</title>
 <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet" />
 <style>
+  /* Reset box-sizing */
   * {
     box-sizing: border-box;
   }
+
+  /* Body y fuente */
   body {
     margin: 0; padding: 20px;
-    background: white;
+    background: #fffafc; /* suave, no blanco puro */
     font-family: 'Comic Neue', cursive, sans-serif;
     color: #4a4a4a;
+    user-select: none; /* para evitar seleccionar texto al click */
   }
+
   h2 {
     text-align: center;
     margin-bottom: 15px;
     font-weight: 700;
     color: #b35d82;
+    user-select: text; /* que el título sí pueda seleccionarse */
   }
+
+  /* Contenedor principal */
   .malla {
     display: flex;
-    gap: 15px;
+    gap: 20px;
     justify-content: center;
     flex-wrap: nowrap;
     overflow-x: auto;
+    padding-bottom: 10px;
   }
+
+  /* Para que en pantallas chicas el scroll horizontal sea natural */
+  @media (max-width: 1024px) {
+    .malla {
+      flex-wrap: nowrap;
+    }
+  }
+  @media (max-width: 600px) {
+    .malla {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+  }
+
+  /* Año */
   .anio {
     background: #ffe9f1;
-    border-radius: 10px;
-    padding: 15px;
+    border-radius: 14px;
+    padding: 18px 15px;
     width: 240px;
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    box-shadow: 0 2px 5px rgba(179, 93, 130, 0.3);
+    gap: 14px;
+    box-shadow: 0 4px 10px rgba(179, 93, 130, 0.25);
+    transition: transform 0.25s ease;
+  }
+  .anio:hover {
+    transform: translateY(-6px);
   }
   .anio h3 {
-    margin: 0 0 10px 0;
+    margin: 0 0 12px 0;
     text-align: center;
     color: #aa5072;
-    border-bottom: 2px solid #aa5072;
-    padding-bottom: 5px;
+    border-bottom: 3px solid #aa5072;
+    padding-bottom: 6px;
+    font-weight: 700;
   }
+
+  /* Materias */
   .materia {
     background: #f8cee2;
-    border-radius: 6px;
-    margin-bottom: 10px;
-    padding: 14px 12px;
+    border-radius: 12px;
+    padding: 14px 14px;
     cursor: pointer;
-    box-shadow: 0 1px 3px rgba(193, 112, 143, 0.5);
-    transition: background-color 0.3s ease, color 0.3s ease;
+    box-shadow: 0 3px 6px rgba(193, 112, 143, 0.4);
+    transition:
+      background-color 0.3s ease,
+      color 0.3s ease,
+      box-shadow 0.3s ease,
+      transform 0.15s ease;
+    font-weight: 600;
+    font-size: 1.05rem;
     position: relative;
     user-select: none;
-    font-weight: 600;
   }
+  .materia:hover:not(.locked) {
+    background-color: #f0a3c0;
+    box-shadow: 0 6px 14px #d36f8aaa;
+    transform: translateY(-3px);
+  }
+
   .materia.locked {
     background: #e4b8cc;
     cursor: not-allowed;
     opacity: 0.6;
+    box-shadow: none;
+    transform: none !important;
   }
+
   .materia.aprobada {
-    background-color: #f4c2d7;  /* rosa pastel suave */
-    border: 2px solid #d36f8a;  /* rosa más fuerte */
-    color: #8b3a4a;             /* texto oscuro que contraste */
+    background-color: #f4c2d7;
+    border: 2px solid #d36f8a;
+    color: #8b3a4a;
+    box-shadow: 0 0 10px #d36f8aaa;
   }
   .materia.aprobada:hover {
-    background-color: #d88ba3;  /* rosa más oscuro al pasar el mouse */
+    background-color: #d88ba3;
+    box-shadow: 0 0 14px #d36f8aff;
+    transform: translateY(-3px);
   }
-  .materia:not(.locked):hover {
-    background-color: #f0a3c0;
-  }
+
+  /* Indicadores de cuatrimestre/anual */
   .tipo-cuatrimestre {
     font-size: 0.85rem;
-    margin-top: 6px;
+    margin-top: 8px;
     font-weight: 600;
     color: #804060;
     text-align: right;
+    user-select: none;
+  }
+
+  /* Efecto "pop" rápido al click */
+  .materia.clicked {
+    animation: popclick 0.2s ease forwards;
+  }
+  @keyframes popclick {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
   }
 </style>
 </head>
@@ -323,6 +380,12 @@
       const id = materia.dataset.id;
       materias[id].aprobada = !materias[id].aprobada;
       actualizarDesbloqueo();
+
+      // Animación pop al click
+      materia.classList.add('clicked');
+      setTimeout(() => {
+        materia.classList.remove('clicked');
+      }, 200);
     });
   });
 </script>
