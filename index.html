@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Malla Interactiva UNSL - Rosa Pastel Simple</title>
+<title>Malla Interactiva UNSL - Rosa Pastel Clickable</title>
 <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet" />
 <style>
   * {
@@ -49,20 +49,18 @@
     background: #f8cee2;
     border-radius: 6px;
     margin-bottom: 10px;
-    padding: 10px;
+    padding: 14px 10px;
     cursor: pointer;
     box-shadow: 0 1px 3px rgba(193, 112, 143, 0.5);
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, color 0.3s ease;
     position: relative;
     user-select: none;
+    font-weight: 600;
   }
   .materia.locked {
     background: #e4b8cc;
     cursor: not-allowed;
     opacity: 0.6;
-  }
-  .materia:hover:not(.locked) {
-    background-color: #f0a3c0;
   }
   .materia.aprobada {
     background-color: #d6f0e7;
@@ -72,8 +70,8 @@
   .materia.aprobada:hover {
     background-color: #b8e6d5;
   }
-  .nombre-materia {
-    font-weight: 600;
+  .materia:not(.locked):hover {
+    background-color: #f0a3c0;
   }
   .tipo-cuatrimestre {
     font-size: 0.85rem;
@@ -82,16 +80,14 @@
     color: #804060;
     text-align: right;
   }
-  .checkbox-container {
-    position: absolute;
-    top: 10px;
-    right: 10px;
+  input.aprobar-checkbox {
+    display: none;
   }
 </style>
 </head>
 <body>
 
-<h2>Malla Interactiva UNSL - Rosa Pastel Simple</h2>
+<h2>Malla Interactiva UNSL - Rosa Pastel Clickable</h2>
 
 <div class="malla" id="malla">
 
@@ -100,35 +96,27 @@
     <h3>1º Año</h3>
 
     <div class="materia" data-id="intro-calc" data-correlativas="[]" data-tipo="1" tabindex="0">
-      <span class="nombre-materia">Introducción al Cálculo</span>
-      <label class="checkbox-container">
-        <input type="checkbox" class="aprobar-checkbox" />
-      </label>
+      Introducción al Cálculo
       <div class="tipo-cuatrimestre">1º</div>
+      <input type="checkbox" class="aprobar-checkbox" />
     </div>
 
     <div class="materia locked" data-id="resolucion-problemas" data-correlativas="[]" data-tipo="2" tabindex="0">
-      <span class="nombre-materia">Resolución de Problemas</span>
-      <label class="checkbox-container">
-        <input type="checkbox" class="aprobar-checkbox" disabled />
-      </label>
+      Resolución de Problemas
       <div class="tipo-cuatrimestre">2º</div>
+      <input type="checkbox" class="aprobar-checkbox" disabled />
     </div>
 
     <div class="materia locked" data-id="calculo1" data-correlativas='["intro-calc"]' data-tipo="2" tabindex="0">
-      <span class="nombre-materia">Cálculo I</span>
-      <label class="checkbox-container">
-        <input type="checkbox" class="aprobar-checkbox" disabled />
-      </label>
+      Cálculo I
       <div class="tipo-cuatrimestre">2º</div>
+      <input type="checkbox" class="aprobar-checkbox" disabled />
     </div>
 
     <div class="materia locked" data-id="programacion1" data-correlativas='["resolucion-problemas"]' data-tipo="anual" tabindex="0">
-      <span class="nombre-materia">Programación I</span>
-      <label class="checkbox-container">
-        <input type="checkbox" class="aprobar-checkbox" disabled />
-      </label>
+      Programación I
       <div class="tipo-cuatrimestre">Anual</div>
+      <input type="checkbox" class="aprobar-checkbox" disabled />
     </div>
 
   </section>
@@ -138,11 +126,9 @@
     <h3>2º Año</h3>
 
     <div class="materia locked" data-id="programacion2" data-correlativas='["programacion1"]' data-tipo="1" tabindex="0">
-      <span class="nombre-materia">Programación II</span>
-      <label class="checkbox-container">
-        <input type="checkbox" class="aprobar-checkbox" disabled />
-      </label>
+      Programación II
       <div class="tipo-cuatrimestre">1º</div>
+      <input type="checkbox" class="aprobar-checkbox" disabled />
     </div>
 
   </section>
@@ -152,6 +138,7 @@
 <script>
   const materias = {};
 
+  // Inicializo materias y correlativas
   document.querySelectorAll('.materia').forEach(materia => {
     const id = materia.dataset.id;
     const correlativas = JSON.parse(materia.dataset.correlativas);
@@ -162,6 +149,7 @@
     };
   });
 
+  // Actualizo estado de bloqueo y estilos
   function actualizarDesbloqueo() {
     for (const id in materias) {
       const mat = materias[id];
@@ -187,11 +175,12 @@
 
   actualizarDesbloqueo();
 
-  document.querySelectorAll('input.aprobar-checkbox').forEach(checkbox => {
-    checkbox.addEventListener('change', e => {
-      const materiaDiv = e.target.closest('.materia');
-      const id = materiaDiv.dataset.id;
-      materias[id].aprobada = e.target.checked;
+  // Click en la materia para toggle aprobar/desaprobar
+  document.querySelectorAll('.materia').forEach(materia => {
+    materia.addEventListener('click', () => {
+      if (materia.classList.contains('locked')) return;
+      const id = materia.dataset.id;
+      materias[id].aprobada = !materias[id].aprobada;
       actualizarDesbloqueo();
     });
   });
