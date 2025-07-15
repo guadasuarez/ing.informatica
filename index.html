@@ -2,36 +2,120 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Malla Interactiva - Ingeniería en Informática</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Malla Interactiva - Ingeniería en Informática (UNSL)</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      margin: 20px;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1rem;
+      margin-top: 30px;
+    }
+
+    .card {
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .card:hover {
+      transform: scale(1.03);
+    }
+
+    .regularizada {
+      background-color: #ffe599;
+    }
+
+    .aprobada {
+      background-color: #b6d7a8;
+    }
+
+    .estado {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    select {
+      margin-top: 5px;
+    }
+  </style>
 </head>
 <body>
+
   <h1>Malla Interactiva - Ingeniería en Informática UNSL</h1>
 
-  <div id="malla">
-    <!-- Ejemplo de materia -->
-    <div class="materia" data-info="Correlativas: Ninguna. Cuatrimestre: 1° Año - 1° C">
-      Introducción al Cálculo
-    </div>
+  <div class="grid" id="malla"></div>
 
-    <div class="materia" data-info="Correlativas: Ninguna. Cuatrimestre: 1° Año - 1° C">
-      Álgebra I
-    </div>
+  <script>
+    const materias = [
+      { id: 1, nombre: "Introducción al Cálculo", año: 1, cuatri: 1 },
+      { id: 2, nombre: "Álgebra I", año: 1, cuatri: 1 },
+      { id: 3, nombre: "Resolución de Problemas y Algoritmos", año: 1, cuatri: 1 },
+      { id: 4, nombre: "Programación I", año: 1, cuatri: 2 },
+      { id: 5, nombre: "Matemática Discreta", año: 1, cuatri: 2 },
+      { id: 6, nombre: "Cálculo I", año: 1, cuatri: 2 },
+      { id: 7, nombre: "Álgebra II", año: 1, cuatri: 2 },
+      { id: 8, nombre: "Probabilidad y Estadística", año: 2, cuatri: 1 },
+      { id: 9, nombre: "Inglés", año: 2, cuatri: "Anual" },
+      { id: 10, nombre: "Programación II", año: 2, cuatri: 1 },
+      { id: 11, nombre: "Organización y Arquitectura de Computadoras", año: 2, cuatri: 1 },
+      { id: 12, nombre: "Programación III", año: 2, cuatri: 2 },
+    ];
 
-    <div class="materia" data-info="Correlativas: Ninguna. Cuatrimestre: 1° Año - 1° C">
-      Resolución de Problemas y Algoritmos
-    </div>
+    let estadosGuardados = JSON.parse(localStorage.getItem("estadosMaterias")) || {};
 
-    <div class="materia" data-info="Correlativas: Aprob. Introducción al Cálculo. Cuatrimestre: 1° Año - 2° C">
-      Programación I
-    </div>
+    function renderMalla() {
+      const mallaDiv = document.getElementById("malla");
+      mallaDiv.innerHTML = "";
 
-    <!-- Agregá más materias siguiendo este modelo -->
-  </div>
+      materias.forEach(mat => {
+        const estado = estadosGuardados[mat.id] || "";
 
-  <div id="infoBox" class="hidden"></div>
+        const card = document.createElement("div");
+        card.className = "card";
+        if (estado === "Regularizada") card.classList.add("regularizada");
+        if (estado === "Aprobada") card.classList.add("aprobada");
 
-  <script src="script.js"></script>
+        card.innerHTML = `
+          <strong>${mat.nombre}</strong><br>
+          <small>Año ${mat.año} - Cuat. ${mat.cuatri}</small>
+          <div class="estado">
+            <select data-id="${mat.id}">
+              <option value="">Estado</option>
+              <option value="Regularizada" ${estado === "Regularizada" ? "selected" : ""}>Regularizada</option>
+              <option value="Aprobada" ${estado === "Aprobada" ? "selected" : ""}>Aprobada</option>
+            </select>
+          </div>
+        `;
+        mallaDiv.appendChild(card);
+      });
+
+      // Reasignar eventos después de render
+      document.querySelectorAll("select").forEach(select => {
+        select.addEventListener("change", e => {
+          const id = e.target.getAttribute("data-id");
+          const value = e.target.value;
+          estadosGuardados[id] = value;
+          localStorage.setItem("estadosMaterias", JSON.stringify(estadosGuardados));
+          renderMalla(); // Actualiza los colores al cambiar estado
+        });
+      });
+    }
+
+    renderMalla();
+  </script>
+
 </body>
 </html>
